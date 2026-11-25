@@ -19,10 +19,16 @@ LINE = (
     "excuse for me in a font I can't argue with."
 )
 
+# Gate from the bounty rules: the sealed scorer only accepts 1-200
+# characters, and the judge brief wants a single sentence with the
+# punch at the end. Keep the entry inside 1-199 so the trailing
+# newline the file write adds never pushes it over the gate.
+MAX_CHARS = 199
+
 
 def main() -> int:
-    if not 1 <= len(LINE) <= 199:
-        raise ValueError(f"entry must be 1-199 chars, got {len(LINE)}")
+    if not 1 <= len(LINE) <= MAX_CHARS:
+        raise ValueError(f"entry must be 1-{MAX_CHARS} chars, got {len(LINE)}")
     if LINE.count("\n") or LINE.count(".") != 1:
         raise ValueError("entry must be a single sentence on one line")
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
